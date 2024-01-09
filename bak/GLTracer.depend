@@ -1,0 +1,1545 @@
+# depslib dependency file v1.0
+1375022981 source:e:\codeblocks\gltracer\gltracer.cpp
+	"GLTracer.h"
+	<iostream>
+	<sstream>
+	<stack>
+	"TestScene.h"
+	"WorldClock.h"
+	"Controls.h"
+	"Collisions.h"
+
+1373812994 e:\codeblocks\gltracer\gltracer.h
+	<vector>
+	<GL/glew.h>
+	<GLFW/glfw3.h>
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+	"ShaderProgram.h"
+	"Primitive.h"
+	"Camera.h"
+	"Grid.h"
+	"kdTree.h"
+
+1364429124 c:\program files (x86)\codeblocks\mingw\include\gl\glfw.h
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1301114764 c:\program files (x86)\codeblocks\mingw\include\gl\gl.h
+
+1301114764 c:\program files (x86)\codeblocks\mingw\include\gl\glu.h
+	<stddef.h>
+	<GL/gl.h>
+
+1373810285 source:e:\codeblocks\gltracer\main.cpp
+	<ctime>
+	"WorldClock.h"
+	"GLTracer.h"
+
+1373806677 e:\codeblocks\gltracer\shaderprogram.h
+	<string>
+	<GL/glew.h>
+	<GLFW/glfw3.h>
+
+1370987632 source:e:\codeblocks\gltracer\shaderprogram.cpp
+	"ShaderProgram.h"
+	<string>
+	<fstream>
+	<iostream>
+
+1344247148 c:\program files (x86)\codeblocks\mingw\include\gl\glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
+
+1341010372 c:\program files (x86)\codeblocks\mingw\include\inttypes.h
+	<_mingw.h>
+	<stdint.h>
+	<stddef.h>
+
+1341010370 c:\program files (x86)\codeblocks\mingw\include\_mingw.h
+
+1341010376 c:\program files (x86)\codeblocks\mingw\include\stdint.h
+	<stddef.h>
+
+1370289500 source:e:\codeblocks\gltracer\glew.c
+	<GL/glew.h>
+	<GL/wglew.h>
+	<GL/glxew.h>
+	<dlfcn.h>
+	<stdio.h>
+	<stdlib.h>
+	<stdlib.h>
+	<string.h>
+	<AvailabilityMacros.h>
+	<dlfcn.h>
+	<mach-o/dyld.h>
+
+1344247148 c:\program files (x86)\codeblocks\mingw\include\gl\wglew.h
+	<windows.h>
+
+1301114762 c:\program files (x86)\codeblocks\mingw\include\windows.h
+	<winresrc.h>
+	<stdarg.h>
+	<windef.h>
+	<wincon.h>
+	<winbase.h>
+	<wingdi.h>
+	<winuser.h>
+	<winnls.h>
+	<winver.h>
+	<winnetwk.h>
+	<winreg.h>
+	<winsvc.h>
+	<cderr.h>
+	<dde.h>
+	<ddeml.h>
+	<dlgs.h>
+	<imm.h>
+	<lzexpand.h>
+	<mmsystem.h>
+	<nb30.h>
+	<rpc.h>
+	<shellapi.h>
+	<winperf.h>
+	<commdlg.h>
+	<winspool.h>
+	<winsock2.h>
+	<winsock.h>
+	<ole2.h>
+
+1301114762 c:\program files (x86)\codeblocks\mingw\include\winresrc.h
+	<winuser.h>
+	<winnt.h>
+	<winver.h>
+	<dde.h>
+	<dlgs.h>
+	<commctrl.h>
+
+1301114764 c:\program files (x86)\codeblocks\mingw\include\winuser.h
+
+1301114762 c:\program files (x86)\codeblocks\mingw\include\winnt.h
+	<winerror.h>
+	<string.h>
+	<basetsd.h>
+	<pshpack4.h>
+	<poppack.h>
+
+1301114762 c:\program files (x86)\codeblocks\mingw\include\winerror.h
+
+1341010376 c:\program files (x86)\codeblocks\mingw\include\string.h
+	<_mingw.h>
+	<stddef.h>
+
+1301114748 c:\program files (x86)\codeblocks\mingw\include\basetsd.h
+
+1301114756 c:\program files (x86)\codeblocks\mingw\include\pshpack4.h
+
+1301114756 c:\program files (x86)\codeblocks\mingw\include\poppack.h
+
+1301114764 c:\program files (x86)\codeblocks\mingw\include\winver.h
+
+1301114748 c:\program files (x86)\codeblocks\mingw\include\dde.h
+
+1301114750 c:\program files (x86)\codeblocks\mingw\include\dlgs.h
+
+1301114748 c:\program files (x86)\codeblocks\mingw\include\commctrl.h
+	<prsht.h>
+
+1301114756 c:\program files (x86)\codeblocks\mingw\include\prsht.h
+
+1301114762 c:\program files (x86)\codeblocks\mingw\include\windef.h
+	<winnt.h>
+
+1301114762 c:\program files (x86)\codeblocks\mingw\include\wincon.h
+
+1301114760 c:\program files (x86)\codeblocks\mingw\include\winbase.h
+
+1301114762 c:\program files (x86)\codeblocks\mingw\include\wingdi.h
+
+1301114762 c:\program files (x86)\codeblocks\mingw\include\winnls.h
+
+1301114762 c:\program files (x86)\codeblocks\mingw\include\winnetwk.h
+
+1301114762 c:\program files (x86)\codeblocks\mingw\include\winreg.h
+
+1301114764 c:\program files (x86)\codeblocks\mingw\include\winsvc.h
+
+1301114748 c:\program files (x86)\codeblocks\mingw\include\cderr.h
+
+1301114748 c:\program files (x86)\codeblocks\mingw\include\ddeml.h
+
+1301114750 c:\program files (x86)\codeblocks\mingw\include\imm.h
+
+1301114754 c:\program files (x86)\codeblocks\mingw\include\lzexpand.h
+
+1301114754 c:\program files (x86)\codeblocks\mingw\include\mmsystem.h
+
+1301114754 c:\program files (x86)\codeblocks\mingw\include\nb30.h
+
+1301114758 c:\program files (x86)\codeblocks\mingw\include\rpc.h
+	<windows.h>
+	<rpcdce.h>
+	<rpcnsi.h>
+	<rpcnterr.h>
+	<winerror.h>
+	<excpt.h>
+
+1301114758 c:\program files (x86)\codeblocks\mingw\include\rpcdce.h
+	<basetyps.h>
+	<rpcdcep.h>
+
+1301114748 c:\program files (x86)\codeblocks\mingw\include\basetyps.h
+
+1301114758 c:\program files (x86)\codeblocks\mingw\include\rpcdcep.h
+
+1301114758 c:\program files (x86)\codeblocks\mingw\include\rpcnsi.h
+
+1301114758 c:\program files (x86)\codeblocks\mingw\include\rpcnterr.h
+
+1341010372 c:\program files (x86)\codeblocks\mingw\include\excpt.h
+	<_mingw.h>
+	<windef.h>
+
+1301114760 c:\program files (x86)\codeblocks\mingw\include\shellapi.h
+	<pshpack2.h>
+	<poppack.h>
+
+1301114756 c:\program files (x86)\codeblocks\mingw\include\pshpack2.h
+
+1301114762 c:\program files (x86)\codeblocks\mingw\include\winperf.h
+
+1301114748 c:\program files (x86)\codeblocks\mingw\include\commdlg.h
+	<unknwn.h>
+	<prsht.h>
+
+1301114760 c:\program files (x86)\codeblocks\mingw\include\unknwn.h
+	<windows.h>
+	<objfwd.h>
+	<wtypes.h>
+
+1301114756 c:\program files (x86)\codeblocks\mingw\include\objfwd.h
+	<basetyps.h>
+
+1301114764 c:\program files (x86)\codeblocks\mingw\include\wtypes.h
+	<rpc.h>
+	<rpcndr.h>
+
+1301114758 c:\program files (x86)\codeblocks\mingw\include\rpcndr.h
+	<rpcnsip.h>
+	<objfwd.h>
+
+1301114758 c:\program files (x86)\codeblocks\mingw\include\rpcnsip.h
+
+1301114762 c:\program files (x86)\codeblocks\mingw\include\winspool.h
+
+1301114762 c:\program files (x86)\codeblocks\mingw\include\winsock2.h
+	<windows.h>
+
+1301114762 c:\program files (x86)\codeblocks\mingw\include\winsock.h
+	<windows.h>
+	<mswsock.h>
+
+1301114754 c:\program files (x86)\codeblocks\mingw\include\mswsock.h
+
+1301114756 c:\program files (x86)\codeblocks\mingw\include\ole2.h
+	<winerror.h>
+	<objbase.h>
+	<olectlid.h>
+	<oleauto.h>
+	<oleidl.h>
+
+1301114754 c:\program files (x86)\codeblocks\mingw\include\objbase.h
+	<rpc.h>
+	<rpcndr.h>
+	<stdlib.h>
+	<basetyps.h>
+	<wtypes.h>
+	<unknwn.h>
+	<objidl.h>
+	<cguid.h>
+
+1341010376 c:\program files (x86)\codeblocks\mingw\include\stdlib.h
+	<_mingw.h>
+	<stddef.h>
+
+1301114756 c:\program files (x86)\codeblocks\mingw\include\objidl.h
+	<objfwd.h>
+
+1301114748 c:\program files (x86)\codeblocks\mingw\include\cguid.h
+
+1301114756 c:\program files (x86)\codeblocks\mingw\include\olectlid.h
+
+1301114756 c:\program files (x86)\codeblocks\mingw\include\oleauto.h
+	<oaidl.h>
+
+1301114754 c:\program files (x86)\codeblocks\mingw\include\oaidl.h
+	<windows.h>
+	<ole2.h>
+
+1301114756 c:\program files (x86)\codeblocks\mingw\include\oleidl.h
+	<objfwd.h>
+
+1344247148 c:\program files (x86)\codeblocks\mingw\include\gl\glxew.h
+	<X11/Xlib.h>
+	<X11/Xutil.h>
+	<X11/Xmd.h>
+	<GL/glew.h>
+
+1341010376 c:\program files (x86)\codeblocks\mingw\include\stdio.h
+	<_mingw.h>
+	<stddef.h>
+	<stdarg.h>
+	<sys/types.h>
+
+1341010380 c:\program files (x86)\codeblocks\mingw\include\sys\types.h
+	<_mingw.h>
+	<stddef.h>
+
+1344247148 e:\codeblocks\gltracer\glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\glm.hpp
+	"core/_fixes.hpp"
+	<cmath>
+	<climits>
+	<cfloat>
+	<limits>
+	<cstdio>
+	"core/setup.hpp"
+	"./core/_detail.hpp"
+	"./core/_vectorize.hpp"
+	"./core/type.hpp"
+	"./core/func_trigonometric.hpp"
+	"./core/func_exponential.hpp"
+	"./core/func_common.hpp"
+	"./core/func_packing.hpp"
+	"./core/func_geometric.hpp"
+	"./core/func_matrix.hpp"
+	"./core/func_vector_relational.hpp"
+	"./core/func_integer.hpp"
+	"./core/func_noise.hpp"
+	"./core/_swizzle.hpp"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\_fixes.hpp
+	<cmath>
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\core\setup.hpp
+	<intrin.h>
+	<immintrin.h>
+	<immintrin.h>
+	<smmintrin.h>
+	<pmmintrin.h>
+	<emmintrin.h>
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\_detail.hpp
+	"setup.hpp"
+	<cassert>
+	<cstdint>
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\_vectorize.hpp
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type.hpp
+	"type_half.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_gentype.hpp"
+	"type_vec1.hpp"
+	"type_vec2.hpp"
+	"type_vec3.hpp"
+	"type_vec4.hpp"
+	"type_mat2x2.hpp"
+	"type_mat2x3.hpp"
+	"type_mat2x4.hpp"
+	"type_mat3x2.hpp"
+	"type_mat3x3.hpp"
+	"type_mat3x4.hpp"
+	"type_mat4x2.hpp"
+	"type_mat4x3.hpp"
+	"type_mat4x4.hpp"
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_half.hpp
+	<cstdlib>
+	"type_half.inl"
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_half.inl
+	"_detail.hpp"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_float.hpp
+	"type_half.hpp"
+	"setup.hpp"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_int.hpp
+	"setup.hpp"
+	"_detail.hpp"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_gentype.hpp
+	"type_size.hpp"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_size.hpp
+	<cstdlib>
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_vec1.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec1.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_vec.hpp
+	"type_gentype.hpp"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\_swizzle.hpp
+	"_swizzle_func.hpp"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\_swizzle_func.hpp
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_vec1.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_vec2.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec2.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_vec2.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_vec3.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec3.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_vec3.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_vec4.hpp
+	"type_vec.hpp"
+	"type_float.hpp"
+	"type_int.hpp"
+	"type_size.hpp"
+	"_swizzle.hpp"
+	"type_vec4.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_vec4.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat2x2.hpp
+	"type_mat.hpp"
+	"type_mat2x2.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat.hpp
+	"type_gentype.hpp"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat2x2.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat2x3.hpp
+	"type_mat.hpp"
+	"type_mat2x3.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat2x3.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat2x4.hpp
+	"type_mat.hpp"
+	"type_mat2x4.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat2x4.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat3x2.hpp
+	"type_mat.hpp"
+	"type_mat3x2.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat3x2.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat3x3.hpp
+	"type_mat.hpp"
+	"type_mat3x3.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat3x3.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat3x4.hpp
+	"type_mat.hpp"
+	"type_mat3x4.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat3x4.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat4x2.hpp
+	"type_mat.hpp"
+	"type_mat4x2.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat4x2.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat4x3.hpp
+	"type_mat.hpp"
+	"type_mat4x3.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat4x3.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat4x4.hpp
+	"type_mat.hpp"
+	"type_mat4x4.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\type_mat4x4.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_trigonometric.hpp
+	"func_trigonometric.inl"
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_trigonometric.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_exponential.hpp
+	"func_exponential.inl"
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_exponential.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_common.hpp
+	"_fixes.hpp"
+	"func_common.inl"
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_common.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_packing.hpp
+	"func_packing.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_packing.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_geometric.hpp
+	"func_geometric.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_geometric.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_matrix.hpp
+	"func_matrix.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_matrix.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_vector_relational.hpp
+	"_detail.hpp"
+	"func_vector_relational.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_vector_relational.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_integer.hpp
+	"func_integer.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_integer.inl
+	<intrin.h>
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_noise.hpp
+	"func_noise.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\func_noise.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\ext.hpp
+	"./gtc/constants.hpp"
+	"./gtc/epsilon.hpp"
+	"./gtc/half_float.hpp"
+	"./gtc/matrix_access.hpp"
+	"./gtc/matrix_integer.hpp"
+	"./gtc/matrix_inverse.hpp"
+	"./gtc/matrix_transform.hpp"
+	"./gtc/noise.hpp"
+	"./gtc/quaternion.hpp"
+	"./gtc/random.hpp"
+	"./gtc/reciprocal.hpp"
+	"./gtc/swizzle.hpp"
+	"./gtc/type_precision.hpp"
+	"./gtc/type_ptr.hpp"
+	"./gtc/ulp.hpp"
+	"./gtx/associated_min_max.hpp"
+	"./gtx/bit.hpp"
+	"./gtx/closest_point.hpp"
+	"./gtx/color_cast.hpp"
+	"./gtx/color_space.hpp"
+	"./gtx/color_space_YCoCg.hpp"
+	"./gtx/compatibility.hpp"
+	"./gtx/component_wise.hpp"
+	"./gtx/euler_angles.hpp"
+	"./gtx/extend.hpp"
+	"./gtx/extented_min_max.hpp"
+	"./gtx/fast_exponential.hpp"
+	"./gtx/fast_square_root.hpp"
+	"./gtx/fast_trigonometry.hpp"
+	"./gtx/gradient_paint.hpp"
+	"./gtx/handed_coordinate_space.hpp"
+	"./gtx/inertia.hpp"
+	"./gtx/int_10_10_10_2.hpp"
+	"./gtx/integer.hpp"
+	"./gtx/intersect.hpp"
+	"./gtx/log_base.hpp"
+	"./gtx/matrix_cross_product.hpp"
+	"./gtx/matrix_interpolation.hpp"
+	"./gtx/matrix_major_storage.hpp"
+	"./gtx/matrix_operation.hpp"
+	"./gtx/matrix_query.hpp"
+	"./gtx/mixed_product.hpp"
+	"./gtx/multiple.hpp"
+	"./gtx/norm.hpp"
+	"./gtx/normal.hpp"
+	"./gtx/normalize_dot.hpp"
+	"./gtx/number_precision.hpp"
+	"./gtx/ocl_type.hpp"
+	"./gtx/optimum_pow.hpp"
+	"./gtx/orthonormalize.hpp"
+	"./gtx/perpendicular.hpp"
+	"./gtx/polar_coordinates.hpp"
+	"./gtx/projection.hpp"
+	"./gtx/quaternion.hpp"
+	"./gtx/raw_data.hpp"
+	"./gtx/rotate_vector.hpp"
+	"./gtx/spline.hpp"
+	"./gtx/std_based_type.hpp"
+	"./gtx/string_cast.hpp"
+	"./gtx/transform.hpp"
+	"./gtx/transform2.hpp"
+	"./gtx/vec1.hpp"
+	"./gtx/vector_access.hpp"
+	"./gtx/vector_angle.hpp"
+	"./gtx/vector_query.hpp"
+	"./gtx/verbose_operator.hpp"
+	"./gtx/wrap.hpp"
+	"./gtx/simd_vec4.hpp"
+	"./gtx/simd_mat4.hpp"
+	"./virtrev/xstream.hpp"
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\constants.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"constants.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\half_float.hpp
+	"../glm.hpp"
+	"half_float.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\half_float.inl
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\constants.inl
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\epsilon.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"../gtc/quaternion.hpp"
+	"epsilon.inl"
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\quaternion.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"../gtc/constants.hpp"
+	"quaternion.inl"
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\quaternion.inl
+	<limits>
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\epsilon.inl
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\matrix_access.hpp
+	"../glm.hpp"
+	"matrix_access.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\matrix_access.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\matrix_integer.hpp
+	"../glm.hpp"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\matrix_inverse.hpp
+	"../glm.hpp"
+	"matrix_inverse.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\matrix_inverse.inl
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\matrix_transform.hpp
+	"../glm.hpp"
+	"matrix_transform.inl"
+
+1355694252 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\matrix_transform.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\noise.hpp
+	"../glm.hpp"
+	"noise.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\noise.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\random.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"random.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\random.inl
+	<ctime>
+	<cassert>
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\reciprocal.hpp
+	"../glm.hpp"
+	"reciprocal.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\reciprocal.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\swizzle.hpp
+	"../glm.hpp"
+	"../gtc/type_precision.hpp"
+	"swizzle.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\type_precision.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"../gtc/quaternion.hpp"
+	"type_precision.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\type_precision.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\swizzle.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\type_ptr.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"../gtc/quaternion.hpp"
+	<cstring>
+	"type_ptr.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\type_ptr.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\ulp.hpp
+	"../glm.hpp"
+	"ulp.inl"
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtc\ulp.inl
+	<cmath>
+	<cfloat>
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\associated_min_max.hpp
+	"../glm.hpp"
+	"associated_min_max.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\associated_min_max.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\bit.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"bit.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\bit.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\closest_point.hpp
+	"../glm.hpp"
+	"closest_point.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\closest_point.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\color_cast.hpp
+	"../glm.hpp"
+	"../gtx/number_precision.hpp"
+	"color_cast.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\number_precision.hpp
+	"../glm.hpp"
+	"../gtc/type_precision.hpp"
+	"number_precision.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\number_precision.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\color_cast.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\color_space.hpp
+	"../glm.hpp"
+	"color_space.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\color_space.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\color_space_ycocg.hpp
+	"../glm.hpp"
+	"color_space_YCoCg.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\color_space_ycocg.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\compatibility.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"../gtc/quaternion.hpp"
+	<cfloat>
+	<cmath>
+	"compatibility.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\compatibility.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\component_wise.hpp
+	"../glm.hpp"
+	"component_wise.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\component_wise.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\euler_angles.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"euler_angles.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\euler_angles.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\extend.hpp
+	"../glm.hpp"
+	"extend.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\extend.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\extented_min_max.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"extented_min_max.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\extented_min_max.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\fast_exponential.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"fast_exponential.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\fast_exponential.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\fast_square_root.hpp
+	"../glm.hpp"
+	"fast_square_root.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\fast_square_root.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\fast_trigonometry.hpp
+	"../glm.hpp"
+	"fast_trigonometry.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\fast_trigonometry.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\gradient_paint.hpp
+	"../glm.hpp"
+	"../gtx/optimum_pow.hpp"
+	"gradient_paint.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\optimum_pow.hpp
+	"../glm.hpp"
+	"optimum_pow.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\optimum_pow.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\gradient_paint.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\handed_coordinate_space.hpp
+	"../glm.hpp"
+	"handed_coordinate_space.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\handed_coordinate_space.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\inertia.hpp
+	"../glm.hpp"
+	"inertia.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\inertia.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\int_10_10_10_2.hpp
+	"../glm.hpp"
+	"../gtx/raw_data.hpp"
+	"int_10_10_10_2.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\raw_data.hpp
+	"../glm.hpp"
+	"../gtc/type_precision.hpp"
+	"raw_data.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\raw_data.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\int_10_10_10_2.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\integer.hpp
+	"../glm.hpp"
+	"integer.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\integer.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\intersect.hpp
+	"../glm.hpp"
+	"../gtx/closest_point.hpp"
+	"intersect.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\intersect.inl
+	<cfloat>
+	<limits>
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\log_base.hpp
+	"../glm.hpp"
+	"log_base.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\log_base.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\matrix_cross_product.hpp
+	"../glm.hpp"
+	"matrix_cross_product.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\matrix_cross_product.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\matrix_interpolation.hpp
+	"matrix_interpolation.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\matrix_interpolation.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\matrix_major_storage.hpp
+	"../glm.hpp"
+	"matrix_major_storage.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\matrix_major_storage.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\matrix_operation.hpp
+	"../glm.hpp"
+	"matrix_operation.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\matrix_operation.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\matrix_query.hpp
+	"../glm.hpp"
+	"../gtx/vector_query.hpp"
+	<limits>
+	"matrix_query.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\vector_query.hpp
+	"../glm.hpp"
+	<cfloat>
+	<limits>
+	"vector_query.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\vector_query.inl
+	<cassert>
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\matrix_query.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\mixed_product.hpp
+	"../glm.hpp"
+	"mixed_product.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\mixed_product.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\multiple.hpp
+	"../glm.hpp"
+	"multiple.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\multiple.inl
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\norm.hpp
+	"../glm.hpp"
+	"../gtx/quaternion.hpp"
+	"norm.inl"
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\quaternion.hpp
+	"../glm.hpp"
+	"../gtc/quaternion.hpp"
+	"quaternion.inl"
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\quaternion.inl
+	<limits>
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\norm.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\normal.hpp
+	"../glm.hpp"
+	"normal.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\normal.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\normalize_dot.hpp
+	"../glm.hpp"
+	"../gtx/fast_square_root.hpp"
+	"normalize_dot.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\normalize_dot.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\ocl_type.hpp
+	"../glm.hpp"
+	"ocl_type.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\ocl_type.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\orthonormalize.hpp
+	"../glm.hpp"
+	"orthonormalize.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\orthonormalize.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\perpendicular.hpp
+	"../glm.hpp"
+	"../gtx/projection.hpp"
+	"perpendicular.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\projection.hpp
+	"../glm.hpp"
+	"projection.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\projection.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\perpendicular.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\polar_coordinates.hpp
+	"../glm.hpp"
+	"polar_coordinates.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\polar_coordinates.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\rotate_vector.hpp
+	"../glm.hpp"
+	"../gtx/transform.hpp"
+	"rotate_vector.inl"
+
+1355694252 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\transform.hpp
+	"../glm.hpp"
+	"../gtc/matrix_transform.hpp"
+	"transform.inl"
+
+1355694252 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\transform.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\rotate_vector.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\spline.hpp
+	"../glm.hpp"
+	"../gtx/optimum_pow.hpp"
+	"spline.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\spline.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\std_based_type.hpp
+	"../glm.hpp"
+	<cstdlib>
+	"std_based_type.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\std_based_type.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\string_cast.hpp
+	"../glm.hpp"
+	"../gtc/half_float.hpp"
+	"../gtx/integer.hpp"
+	"../gtx/quaternion.hpp"
+	<string>
+	"string_cast.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\string_cast.inl
+	<cstdarg>
+	<cstdio>
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\transform2.hpp
+	"../glm.hpp"
+	"../gtx/transform.hpp"
+	"transform2.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\transform2.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\vec1.hpp
+	"../glm.hpp"
+	"../core/type_vec1.hpp"
+	"vec1.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\vec1.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\vector_access.hpp
+	"../glm.hpp"
+	"vector_access.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\vector_access.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\vector_angle.hpp
+	"../glm.hpp"
+	"../gtc/epsilon.hpp"
+	"../gtx/quaternion.hpp"
+	"../gtx/rotate_vector.hpp"
+	"vector_angle.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\vector_angle.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\verbose_operator.hpp
+	"../glm.hpp"
+	"verbose_operator.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\verbose_operator.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\wrap.hpp
+	"../glm.hpp"
+	"wrap.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\wrap.inl
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\simd_vec4.hpp
+	"../glm.hpp"
+	"../core/intrinsic_common.hpp"
+	"../core/intrinsic_geometric.hpp"
+	"simd_vec4.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\intrinsic_common.hpp
+	"setup.hpp"
+	"intrinsic_common.inl"
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\core\intrinsic_common.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\intrinsic_geometric.hpp
+	"setup.hpp"
+	"intrinsic_common.hpp"
+	"intrinsic_geometric.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\intrinsic_geometric.inl
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\simd_vec4.inl
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\simd_mat4.hpp
+	"../glm.hpp"
+	"../core/intrinsic_matrix.hpp"
+	"../gtx/simd_vec4.hpp"
+	"simd_mat4.inl"
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\core\intrinsic_matrix.hpp
+	"setup.hpp"
+	"intrinsic_geometric.hpp"
+	"intrinsic_matrix.inl"
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\core\intrinsic_matrix.inl
+
+1356187186 c:\program files (x86)\codeblocks\mingw\include\glm\gtx\simd_mat4.inl
+
+1354998201 c:\program files (x86)\codeblocks\mingw\include\glm\virtrev\xstream.hpp
+	"../glm.hpp"
+	"../gtc/matrix_access.hpp"
+	<iostream>
+
+1370539822 source:g:\gltracer\gltracer.cpp
+	"GLTracer.h"
+	<iostream>
+	<vector>
+
+1370532038 g:\gltracer\gltracer.h
+	<GL/glew.h>
+	<GL/glfw.h>
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+	"ShaderProgram.h"
+
+1370330686 g:\gltracer\shaderprogram.h
+	<string>
+	<GL/glew.h>
+	<GL/glfw.h>
+
+1370330794 source:g:\gltracer\main.cpp
+	<ctime>
+	"GLTracer.h"
+	<GL/glfw.h>
+
+1370537990 source:g:\gltracer\shaderprogram.cpp
+	"ShaderProgram.h"
+	<string>
+	<fstream>
+	<iostream>
+
+1371320814 source:c:\users\josh\desktop\gltracer\gltracer.cpp
+	"GLTracer.h"
+	<iostream>
+	"TestScene.h"
+
+1371321578 c:\users\josh\desktop\gltracer\gltracer.h
+	<vector>
+	<GL/glew.h>
+	<GL/glfw.h>
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+	"ShaderProgram.h"
+	"WorldObject.h"
+	"Camera.h"
+
+1370330686 c:\users\josh\desktop\gltracer\shaderprogram.h
+	<string>
+	<GL/glew.h>
+	<GL/glfw.h>
+
+1370330794 source:c:\users\josh\desktop\gltracer\main.cpp
+	<ctime>
+	"GLTracer.h"
+	<GL/glfw.h>
+
+1370987632 source:c:\users\josh\desktop\gltracer\shaderprogram.cpp
+	"ShaderProgram.h"
+	<string>
+	<fstream>
+	<iostream>
+
+1371250753 c:\users\josh\desktop\gltracer\worldobject.h
+	<GL/glfw.h>
+	<glm/glm.hpp>
+
+1371253341 source:c:\users\josh\desktop\gltracer\scene.cpp
+	"Scene.h"
+	<iostream>
+	<algorithm>
+
+1371256243 c:\users\josh\desktop\gltracer\scene.h
+	<vector>
+	"GLTracer.h"
+	"WorldObject.h"
+
+1371260589 source:c:\users\josh\desktop\gltracer\testscene.cpp
+	"TestScene.h"
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+
+1371253193 c:\users\josh\desktop\gltracer\testscene.h
+	"Scene.h"
+
+1371264183 source:c:\users\josh\desktop\gltracer\camera.cpp
+	"Camera.h"
+	<GL/glfw.h>
+	<time.h>
+
+1371259029 c:\users\josh\desktop\gltracer\camera.h
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+	<vector>
+	"WorldObject.h"
+
+1341010376 c:\program files (x86)\codeblocks\mingw\include\time.h
+	<_mingw.h>
+	<stddef.h>
+
+1371259172 source:c:\users\josh\desktop\gltracer2\gltracer\gltracer.cpp
+	"GLTracer.h"
+	<iostream>
+	"TestScene.h"
+
+1371254876 c:\users\josh\desktop\gltracer2\gltracer\gltracer.h
+	<vector>
+	<GL/glew.h>
+	<GL/glfw.h>
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+	"ShaderProgram.h"
+	"WorldObject.h"
+	"Camera.h"
+
+1370330686 c:\users\josh\desktop\gltracer2\gltracer\shaderprogram.h
+	<string>
+	<GL/glew.h>
+	<GL/glfw.h>
+
+1371250753 c:\users\josh\desktop\gltracer2\gltracer\worldobject.h
+	<GL/glfw.h>
+	<glm/glm.hpp>
+
+1371259029 c:\users\josh\desktop\gltracer2\gltracer\camera.h
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+	<vector>
+	"WorldObject.h"
+
+1371253193 c:\users\josh\desktop\gltracer2\gltracer\testscene.h
+	"Scene.h"
+
+1371256243 c:\users\josh\desktop\gltracer2\gltracer\scene.h
+	<vector>
+	"GLTracer.h"
+	"WorldObject.h"
+
+1370330794 source:c:\users\josh\desktop\gltracer2\gltracer\main.cpp
+	<ctime>
+	"GLTracer.h"
+	<GL/glfw.h>
+
+1371253341 source:c:\users\josh\desktop\gltracer2\gltracer\scene.cpp
+	"Scene.h"
+	<iostream>
+	<algorithm>
+
+1370987632 source:c:\users\josh\desktop\gltracer2\gltracer\shaderprogram.cpp
+	"ShaderProgram.h"
+	<string>
+	<fstream>
+	<iostream>
+
+1371260589 source:c:\users\josh\desktop\gltracer2\gltracer\testscene.cpp
+	"TestScene.h"
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+
+1371264183 source:c:\users\josh\desktop\gltracer2\gltracer\camera.cpp
+	"Camera.h"
+	<GL/glfw.h>
+	<time.h>
+
+1373821381 source:e:\codeblocks\gltracer\camera.cpp
+	"Camera.h"
+	<GLFW/glfw3.h>
+	<time.h>
+	"WorldClock.h"
+	"Collisions.h"
+	"Controls.h"
+
+1373746840 e:\codeblocks\gltracer\camera.h
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+	<vector>
+	"Ray.h"
+	"Primitive.h"
+
+1372360114 e:\codeblocks\gltracer\worldobject.h
+	<GL/glfw.h>
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+
+1371581037 e:\codeblocks\gltracer\testscene.h
+	"Scene.h"
+
+1373126128 e:\codeblocks\gltracer\scene.h
+	<vector>
+	<map>
+	"GLTracer.h"
+	"Primitive.h"
+
+1373126167 source:e:\codeblocks\gltracer\scene.cpp
+	"Scene.h"
+	<iostream>
+	<algorithm>
+
+1373814563 source:e:\codeblocks\gltracer\testscene.cpp
+	"TestScene.h"
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+	"WorldClock.h"
+
+1371397368 e:\codeblocks\gltracer\worldclock.h
+	<time.h>
+	<iostream>
+
+1371397873 source:e:\codeblocks\gltracer\worldclock.cpp
+	"WorldClock.h"
+	<glm/glm.hpp>
+	<time.h>
+
+1373727339 e:\codeblocks\gltracer\collisions.h
+	<glm/glm.hpp>
+	"Ray.h"
+	"Primitive.h"
+
+1371400079 e:\codeblocks\gltracer\ray.h
+	<glm/glm.hpp>
+
+1373129157 source:e:\codeblocks\gltracer\kdtree.cpp
+	"kdTree.h"
+	<queue>
+
+1373129157 e:\codeblocks\gltracer\kdtree.h
+	<glm/glm.hpp>
+	<vector>
+	"Primitive.h"
+
+1373820602 e:\codeblocks\gltracer\controls.h
+	<glm/glm.hpp>
+	<GLFW/glfw3.h>
+	"Utility.h"
+
+1373821524 source:e:\codeblocks\gltracer\controls.cpp
+	"Controls.h"
+
+1373813097 source:e:\codeblocks\gltracer\collisions.cpp
+	"Collisions.h"
+
+1373806677 e:\codeblocks\gltracer\primitive.h
+	<GLFW/glfw3.h>
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+
+1373744363 e:\codeblocks\gltracer\grid.h
+	<vector>
+	"Primitive.h"
+	"Camera.h"
+
+1374946195 source:e:\codeblocks\gltracer\grid.cpp
+	"Grid.h"
+	"Ray.h"
+	"Collisions.h"
+	"Utility.h"
+
+1375021670 e:\codeblocks\gltracer\utility.h
+	<GLFW/glfw3.h>
+	<glm/glm.hpp>
+	<iostream>
+	<string>
+
+1371418446 c:\program files (x86)\codeblocks\mingw\include\glfw\glfw3.h
+	<stddef.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/glcorearb.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<GLES3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1371397368 e:\codeblocks\gltracer\include\worldclock.h
+	<time.h>
+	<iostream>
+
+1377036324 e:\codeblocks\gltracer\include\gltracer.h
+	<vector>
+	<GL/glew.h>
+	<GLFW/glfw3.h>
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+	"ShaderProgram.h"
+	"Primitive.h"
+	"Camera.h"
+	"accell/Grid.h"
+	"accell/kdTree.h"
+
+1377032578 e:\codeblocks\gltracer\include\shaderprogram.h
+	<vector>
+	<string>
+	<GL/glew.h>
+	<GLFW/glfw3.h>
+
+1373806677 e:\codeblocks\gltracer\include\primitive.h
+	<GLFW/glfw3.h>
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+
+1373746840 e:\codeblocks\gltracer\include\camera.h
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+	<vector>
+	"Ray.h"
+	"Primitive.h"
+
+1371400079 e:\codeblocks\gltracer\include\ray.h
+	<glm/glm.hpp>
+
+1373744363 e:\codeblocks\gltracer\include\grid.h
+	<vector>
+	"Primitive.h"
+	"Camera.h"
+
+1373129157 e:\codeblocks\gltracer\include\kdtree.h
+	<glm/glm.hpp>
+	<vector>
+	"Primitive.h"
+
+1382101825 source:e:\codeblocks\gltracer\src\accell\grid.cpp
+	"accell/Grid.h"
+	"Ray.h"
+	"Collisions.h"
+	"Utility.h"
+
+1373727339 e:\codeblocks\gltracer\include\collisions.h
+	<glm/glm.hpp>
+	"Ray.h"
+	"Primitive.h"
+
+1375021670 e:\codeblocks\gltracer\include\utility.h
+	<GLFW/glfw3.h>
+	<glm/glm.hpp>
+	<iostream>
+	<string>
+
+1375030284 source:e:\codeblocks\gltracer\src\accell\kdtree.cpp
+	"accell/kdTree.h"
+	<queue>
+
+1373821381 source:e:\codeblocks\gltracer\src\camera.cpp
+	"Camera.h"
+	<GLFW/glfw3.h>
+	<time.h>
+	"WorldClock.h"
+	"Collisions.h"
+	"Controls.h"
+
+1373820602 e:\codeblocks\gltracer\include\controls.h
+	<glm/glm.hpp>
+	<GLFW/glfw3.h>
+	"Utility.h"
+
+1376153638 source:e:\codeblocks\gltracer\src\collisions.cpp
+	"Collisions.h"
+
+1373821524 source:e:\codeblocks\gltracer\src\controls.cpp
+	"Controls.h"
+
+1375030301 source:e:\codeblocks\gltracer\src\hq4x\hq4x.c
+	<stdint.h>
+	"hq4x/common.h"
+	"hq4x/hqx.h"
+
+1269999314 e:\codeblocks\gltracer\src\hq4x\common.h
+	<stdlib.h>
+	<stdint.h>
+
+1270074874 e:\codeblocks\gltracer\src\hq4x\hqx.h
+
+1375030308 source:e:\codeblocks\gltracer\src\hq4x\init.c
+	<stdint.h>
+	"hq4x/hqx.h"
+
+1373126167 source:e:\codeblocks\gltracer\src\scene.cpp
+	"Scene.h"
+	<iostream>
+	<algorithm>
+
+1373126128 e:\codeblocks\gltracer\include\scene.h
+	<vector>
+	<map>
+	"GLTracer.h"
+	"Primitive.h"
+
+1377037007 source:e:\codeblocks\gltracer\src\shaderprogram.cpp
+	"ShaderProgram.h"
+	<fstream>
+	<iostream>
+	<sstream>
+
+1376147454 source:e:\codeblocks\gltracer\src\testscene.cpp
+	"TestScene.h"
+	<glm/glm.hpp>
+	<glm/ext.hpp>
+	"WorldClock.h"
+
+1371581037 e:\codeblocks\gltracer\include\testscene.h
+	"Scene.h"
+
+1371397873 source:e:\codeblocks\gltracer\src\worldclock.cpp
+	"WorldClock.h"
+	<glm/glm.hpp>
+	<time.h>
+
+1377036536 source:e:\codeblocks\gltracer\src\gltracer.cpp
+	"GLTracer.h"
+	<iostream>
+	<sstream>
+	<stack>
+	"TestScene.h"
+	"WorldClock.h"
+	"Controls.h"
+	"Collisions.h"
+
+1373744363 e:\codeblocks\gltracer\include\accell\grid.h
+	<vector>
+	"Primitive.h"
+	"Camera.h"
+
+1373129157 e:\codeblocks\gltracer\include\accell\kdtree.h
+	<glm/glm.hpp>
+	<vector>
+	"Primitive.h"
+
+1269999314 e:\codeblocks\gltracer\include\hq4x\common.h
+	<stdlib.h>
+	<stdint.h>
+
+1375030485 e:\codeblocks\gltracer\include\hq4x\hqx.h
+
