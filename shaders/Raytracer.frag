@@ -54,7 +54,6 @@ uniform samplerBuffer ObjectRefSampler;
 
 in vec2 ScreenCoord;
 out vec4 color;
-out float gl_FragDepth;
 
 /*
  * Object structures

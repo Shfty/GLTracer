@@ -30,8 +30,8 @@ void Camera::Update( const std::vector<Primitive*>& primitives )
     float deltaAngleX = deltaMousePos.x * 0.0009f;
     float deltaAngleY = deltaMousePos.y * 0.0009f;
 
-    m_cameraRotX *= glm::rotate( deltaAngleX, glm::vec3( 0, 1, 0 ) );
-    m_cameraRotY *= glm::rotate( deltaAngleY, glm::vec3( 1, 0, 0 ) );
+    m_cameraRotX *= glm::rotate( glm::mat4(1.0), deltaAngleX, glm::vec3( 0, 1, 0 ) );
+    m_cameraRotY *= glm::rotate( glm::mat4(1.0), deltaAngleY, glm::vec3( 1, 0, 0 ) );
 
     // Position
     float deltaPosition = TRANSLATE_PER_SEC * deltaTime;
@@ -106,7 +106,7 @@ void Camera::portalTransport( const Primitive* portal, const IsectData& isectDat
     mat4 portalRotation = mat4( 1.0f );
     if( portal->Material.PortalAngle != 0.0f )
     {
-        portalRotation = rotate( -portal->Material.PortalAngle, portal->Material.PortalAxis );
+        portalRotation = rotate( portalRotation, -portal->Material.PortalAngle, portal->Material.PortalAxis );
     }
     vec3 outNormal = vec3( portalRotation * vec4( isectData.Normal, 1.0f ) );
     vec3 inOriginRelative = isectData.Position - portal->Position;

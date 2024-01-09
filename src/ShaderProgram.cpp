@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <cstring>
 
 const std::string GLSL_VERSION_STR = "#version 140";
 
@@ -33,11 +34,13 @@ ShaderProgram::~ShaderProgram()
 // and attempt to compile it
 void ShaderProgram::Compile( const std::vector< std::vector< std::string > >* constants )
 {
+    // Delete shader if it already exists
     if( m_shaderID != 0 )
     {
         glDeleteShader( m_shaderID );
     }
 
+    // Create a string stream to assemble the final shader
     std::stringstream finalShader;
     finalShader << GLSL_VERSION_STR << std::endl;
 
@@ -51,20 +54,38 @@ void ShaderProgram::Compile( const std::vector< std::vector< std::string > >* co
     }
 
     finalShader << m_shaderString;
-    std::cout << finalShader.str();
 
-    const GLchar* shaderSource = finalShader.str().c_str();
-
+    // Copy into a char array to pass to GL
+    const int length = finalShader.str().length(); 
+  
+    char* char_array = new char[length + 1]; 
+  
+    strcpy(char_array, finalShader.str().c_str()); 
+    
+    // Pass to GL and compile
     m_shaderID = glCreateShader( m_shaderType );
-    glShaderSource( m_shaderID, 1, &shaderSource, NULL );
 
+    std::cout << "Shader " << m_shaderID << std::endl;
+
+
+    glShaderSource( m_shaderID, 1, &char_array, NULL );
     glCompileShader( m_shaderID );
 
+    delete[] char_array; 
+
+    // Fetch compilation result, print on error
     GLint shaderCompiled = GL_FALSE;
     glGetShaderiv( m_shaderID, GL_COMPILE_STATUS, &shaderCompiled );
-    std::cout << "Shader " << m_shaderID << " compilation status: " << (shaderCompiled ? "GL_TRUE" : "GL_FALSE") << std::endl;
 
-    GLchar infoLog[ GL_INFO_LOG_LENGTH ] = {0};
-    glGetShaderInfoLog( m_shaderID, GL_INFO_LOG_LENGTH, NULL, infoLog );
-    std::cout << std::endl << "Shader info log:" << std::endl << infoLog << std::endl;
+    if (!shaderCompiled) {
+        std::cout << "Final Shader:\n" << finalShader.str() << "\n\n";
+    }
+
+    std::cout << "Compilation status: " << (shaderCompiled ? "GL_TRUE" : "GL_FALSE") << std::endl;
+
+    if (!shaderCompiled) {
+        GLchar infoLog[ GL_INFO_LOG_LENGTH ] = {0};
+        glGetShaderInfoLog( m_shaderID, GL_INFO_LOG_LENGTH, NULL, infoLog );
+        std::cout << std::endl << "Shader info log:" << std::endl << infoLog << std::endl;
+    }
 }

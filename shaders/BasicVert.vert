@@ -5,7 +5,8 @@ in vec2 texCoord;
 
 out vec2 ScreenCoord;
 
-void main(void) {
-        gl_Position = vec4(vertex, 1.0);
-        ScreenCoord = texCoord;
+void main(void)
+{
+    gl_Position = vec4(vertex, 1.0);
+    ScreenCoord = texCoord;
 }

@@ -142,9 +142,9 @@ void GLTracer::Update()
 
     // Sky light direction
     float deltaSkyLightAngle = SKYLIGHT_ROTATE_PER_SEC * WorldClock::Instance()->DeltaTime();
-    skyLightDirection = glm::normalize( glm::vec3( glm::rotate( deltaSkyLightAngle, glm::vec3( 0, 0, 1 ) ) * glm::vec4( skyLightDirection, 1.0f ) ) );
+    skyLightDirection = glm::normalize( glm::vec3( glm::rotate(glm::mat4(1.0),  deltaSkyLightAngle, glm::vec3( 0, 0, 1 ) ) * glm::vec4( skyLightDirection, 1.0f ) ) );
 
-    glm::vec4 skyColor = glm::lerp( dayColor, nightColor, ( -skyLightDirection.y + 1 ) / 2 );
+    glm::vec4 skyColor = glm::mix( dayColor, nightColor, ( -skyLightDirection.y + 1 ) / 2 );
     scene->Update( skyColor );
 #if ACCELL_STRUCTURE == ACC_GRID
     m_grid->Update( scene->GetObjects(), m_camera->GetPosition(), glm::vec3( m_camera->GetRotation() * glm::vec4( 0, 0, -1, 0 ) ) );
@@ -308,6 +308,8 @@ void GLTracer::walkKDTree()
 // Clear the screen, draw the screen quad and swap buffers
 void GLTracer::Draw()
 {
+    std::cout << "GLTracer::Draw" << "\n";
+
     // Update world objects and prepare kD tree
     bufferPrimitives( scene->GetUpdatedObjects() );
 #if ACCELL_STRUCTURE == ACC_GRID
@@ -410,9 +412,9 @@ void GLTracer::BufferPrimitive( const Primitive* Primitive, const int idx )
                                                   -1.0f );
 
     // World Matrix
-    glm::mat4 transMatrix = glm::translate( Primitive->Position );
+    glm::mat4 transMatrix = glm::translate( glm::mat4(1.0), Primitive->Position );
     glm::mat4 rotMatrix = glm::mat4_cast( Primitive->Orientation );
-    glm::mat4 scaleMatrix = glm::scale( Primitive->Scale );
+    glm::mat4 scaleMatrix = glm::scale( glm::mat4(1.0), Primitive->Scale );
 
 
     glm::mat4 worldMatrix = transMatrix * rotMatrix * scaleMatrix;
@@ -627,6 +629,7 @@ void GLTracer::compileShaders()
 
     m_basicVS = new ShaderProgram( std::string("shaders/BasicVert.vert"), GL_VERTEX_SHADER );
     m_basicVS->Compile();
+
     m_basicFS = new ShaderProgram( std::string("shaders/BasicFrag.frag"), GL_FRAGMENT_SHADER );
     m_basicFS->Compile();
 
@@ -646,6 +649,8 @@ void GLTracer::compileShaders()
     }
 
     m_basicProgram = glCreateProgram();
+    std::cout << "Program " << m_basicProgram << std::endl;
+
     glBindAttribLocation(m_basicProgram, 0, "vertex");
     glBindFragDataLocation(m_basicProgram, 0, "fragColor");
     glAttachShader( m_basicProgram, m_basicVS->GetID() );
@@ -654,11 +659,11 @@ void GLTracer::compileShaders()
 
     GLint basicLinked = GL_FALSE;
     glGetProgramiv( m_basicProgram, GL_LINK_STATUS, &basicLinked );
-    std::cout << "Program " << m_basicProgram << " link status: " << (basicLinked ? "GL_TRUE" : "GL_FALSE") << std::endl;
+    std::cout << "Link status: " << (basicLinked ? "GL_TRUE" : "GL_FALSE") << std::endl;
 
     GLchar basicInfoLog[ GL_INFO_LOG_LENGTH ] = { 0 };
     glGetProgramInfoLog( m_basicProgram, GL_INFO_LOG_LENGTH, NULL, basicInfoLog );
-    std::cout << std::endl << "Basic Program info log:" << std::endl << basicInfoLog << std::endl;
+    std::cout << "Info log:" << std::endl << basicInfoLog << std::endl;
 
     // Raytracer Program
     if( m_raytracerProgram != 0 )
