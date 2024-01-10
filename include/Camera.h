@@ -25,9 +25,9 @@ private:
 
     glm::vec3 m_position = glm::vec3( 10.0f, 0, 15.0f );
     glm::vec3 m_prevPosition = m_position;
-    glm::mat4 m_rotation;
-    glm::mat4 m_cameraRotX;
-    glm::mat4 m_cameraRotY;
+    glm::mat4 m_rotation = glm::mat4(1.0);
+    glm::mat4 m_cameraRotX = glm::mat4(1.0);
+    glm::mat4 m_cameraRotY = glm::mat4(1.0);
 
     glm::vec3 m_warpFactor = glm::vec3( 1.0f );
 };

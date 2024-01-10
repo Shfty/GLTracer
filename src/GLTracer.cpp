@@ -1,4 +1,5 @@
 #include "GLTracer.h"
+#include "GLError.h"
 
 #include <iostream>
 #include <sstream>
@@ -30,14 +31,11 @@ glm::vec4 dayColor = glm::vec4(0, 1, 1, 1);
 glm::vec4 nightColor = glm::vec4(0, 0, 0.5, 1);
 
 std::string windowTitle = "GLTracer";
-glm::vec2 windowBounds = glm::vec2( 1280.0f, 720.0f );
-glm::vec2 renderBounds = glm::round( windowBounds / 1.5f );
-glm::vec2 viewportBounds;
-glm::vec2 viewportPadding;
-int uniform_WindowSize = 0;
-int uniform_FOV = 0;
+glm::vec2 windowBounds = glm::vec2( 2560.0f, 1440.0f );
+static GLint uniform_WindowSize = -1;
+static GLint uniform_FOV = -1;
 
-GLuint s_raytracerProgram = 0;
+static GLuint s_raytracerProgram = 0;
 
 TestScene* scene;
 
@@ -82,6 +80,8 @@ GLTracer::GLTracer()
 #endif
 
     compileShaders();
+
+    callbackResizeWindow( 0, windowBounds.x, windowBounds.y );
 }
 
 // Deallocate heap and OpenGL objects
@@ -102,31 +102,31 @@ void GLTracer::terminateGL()
 {
     if( m_raytracerProgram != 0 )
     {
-        glDeleteProgram( m_raytracerProgram );
+        GL(glDeleteProgram( m_raytracerProgram ));
     }
 
     if( m_basicProgram != 0 )
     {
-        glDeleteProgram( m_basicProgram );
+        GL(glDeleteProgram( m_basicProgram ));
     }
 
     glfwDestroyWindow( m_window );
 
-    glDeleteBuffers( 1, &m_vertexBuffer );
-    glDeleteBuffers( 1, &m_texCoordBuffer );
+    GL(glDeleteBuffers( 1, &m_vertexBuffer ));
+    GL(glDeleteBuffers( 1, &m_texCoordBuffer ));
 
-    glDeleteTextures( 1, &m_objectInfoTex );
-    glDeleteBuffers( 1, &m_objectInfoTBO );
+    GL(glDeleteTextures( 1, &m_objectInfoTex ));
+    GL(glDeleteBuffers( 1, &m_objectInfoTBO ));
 
-    glDeleteTextures( 1, &m_accellStructureTex );
-    glDeleteBuffers( 1, &m_accellStructureTBO );
+    GL(glDeleteTextures( 1, &m_accellStructureTex ));
+    GL(glDeleteBuffers( 1, &m_accellStructureTBO ));
 
-    glDeleteTextures( 1, &m_objectRefTex );
-    glDeleteBuffers( 1, &m_objectRefTBO );
+    GL(glDeleteTextures( 1, &m_objectRefTex ));
+    GL(glDeleteBuffers( 1, &m_objectRefTBO ));
 
-    glDeleteTextures( 1, &m_screenColorTexture );
-    glDeleteTextures( 1, &m_screenDepthTexture );
-    glDeleteFramebuffers( 1, &m_framebuffer );
+    GL(glDeleteTextures( 1, &m_screenColorTexture ));
+    GL(glDeleteTextures( 1, &m_screenDepthTexture ));
+    GL(glDeleteFramebuffers( 1, &m_framebuffer ));
 
     glfwTerminate();
 }
@@ -134,6 +134,8 @@ void GLTracer::terminateGL()
 // Performs per-frame changes to the world state
 void GLTracer::Update()
 {
+    WorldClock::Instance()->Update();
+
     // Raytracer program needs to be active to receive data
     glUseProgram( m_raytracerProgram );
 
@@ -151,18 +153,20 @@ void GLTracer::Update()
 #endif
 
     // Window title info readout
-    static int ticks = 0;
+    static float acc = 0;
     static int frames = 0;
-    ticks += WorldClock::Instance()->ElapsedTime();
+    acc += WorldClock::Instance()->DeltaTime();
     frames++;
-    if( ticks > 1000 )
+
+    if( acc > 1.0f )
     {
         std::stringstream ss;
         ss << windowTitle << std::string( " | FPS: " ) << frames;
-        ss << " | Internal Resolution: " << renderBounds.x << "x" << renderBounds.y;
+        ss << " | Internal Resolution: " << windowBounds.x << "x" << windowBounds.y;
         ss << " | Window Resolution: " << windowBounds.x << "x" << windowBounds.y;
         glfwSetWindowTitle( m_window, ss.str().c_str() );
-        ticks -= 1000;
+        std::cout << "FPS: " << frames << std::endl;
+        acc = 0.0;
         frames = 0;
     }
 
@@ -308,12 +312,12 @@ void GLTracer::walkKDTree()
 // Clear the screen, draw the screen quad and swap buffers
 void GLTracer::Draw()
 {
-    std::cout << "GLTracer::Draw" << "\n";
+    setupRenderTexture();
 
     // Update world objects and prepare kD tree
     bufferPrimitives( scene->GetUpdatedObjects() );
 #if ACCELL_STRUCTURE == ACC_GRID
-    //bufferGrid(); // Currently broken
+    bufferGrid();
 #endif
 
 #if ACCELL_STRUCTURE == ACC_KDTREE
@@ -325,60 +329,65 @@ void GLTracer::Draw()
     // Update uniforms
     //Camera
     glm::vec3 cameraPos = m_camera->GetPosition();
-    glUniform3f( m_uniform_CameraPos, cameraPos.x, cameraPos.y, cameraPos.z );
-    glUniformMatrix4fv( m_uniform_CameraRot, 1, GL_FALSE, glm::value_ptr( m_camera->GetRotation() ) );
-    glUniformMatrix4fv( m_uniform_CameraRotInverse, 1, GL_FALSE, glm::value_ptr( glm::inverse( m_camera->GetRotation() ) ) );
+    GL(glUniform3f( m_uniform_CameraPos, cameraPos.x, cameraPos.y, cameraPos.z ));
+    GL(glUniformMatrix4fv( m_uniform_CameraRot, 1, GL_FALSE, glm::value_ptr( m_camera->GetRotation() ) ));
+    GL(glUniformMatrix4fv( m_uniform_CameraRotInverse, 1, GL_FALSE, glm::value_ptr( glm::inverse( m_camera->GetRotation() ) ) ));
 
     //Sky
-    glUniform3f( m_uniform_SkyLightDirection, skyLightDirection.x, skyLightDirection.y, skyLightDirection.z );
+    GL(glUniform3f( m_uniform_SkyLightDirection, skyLightDirection.x, skyLightDirection.y, skyLightDirection.z ));
 
     // Render to internal texture
-    glBindFramebuffer( GL_FRAMEBUFFER, m_framebuffer );
-    glViewport( 0, 0, renderBounds.x, renderBounds.y );
-    glUseProgram( m_raytracerProgram );
+    GL(glBindFramebuffer( GL_FRAMEBUFFER, m_framebuffer ));
+    GL(glViewport( 0, 0, windowBounds.x, windowBounds.y ));
+    GL(glUseProgram( m_raytracerProgram ));
 
-    glEnable( GL_DEPTH_TEST );
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    glDrawArrays( GL_QUADS, 0, 4 );
+    GL(glEnable( GL_DEPTH_TEST ));
+    GL(glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ));
+    GL(glDrawArrays( GL_QUADS, 0, 4 ));
 
     // Draw debug components
-    glUseProgram( 0 );
+    GL(glUseProgram( 0 ));
 
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
-    glMultMatrixf( glm::value_ptr( m_projectionMatrix ) );
+    GL(glMatrixMode( GL_PROJECTION ));
+    GL(glLoadIdentity());
+    GL(glMultMatrixf( glm::value_ptr( m_projectionMatrix ) ));
 
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity();
-    glMultMatrixf( glm::value_ptr( glm::inverse( m_camera->GetRotation() ) ) );
-    glTranslatef( -m_camera->GetPosition().x, -m_camera->GetPosition().y, -m_camera->GetPosition().z );
+    GL(glMatrixMode( GL_MODELVIEW ));
+    GL(glLoadIdentity());
+    GL(glMultMatrixf( glm::value_ptr( glm::inverse( m_camera->GetRotation() ) ) ));
+    GL(glTranslatef( -m_camera->GetPosition().x, -m_camera->GetPosition().y, -m_camera->GetPosition().z ));
 
     glBegin( GL_TRIANGLES );
         glVertex3f( 0.0, 20.0, -10.0 );
         glVertex3f( 10.0, 0.0, -10.0 );
         glVertex3f(-10.0, 0.0, -10.0 );
     glEnd();
+    handle_error();
+
 #if ACCELL_STRUCTURE == ACC_GRID
 #ifdef RENDER_DEBUG
     m_grid->Draw();
 #endif
 #endif
 
-    glDisable( GL_DEPTH_TEST );
+    GL(glDisable( GL_DEPTH_TEST ));
 
     // Draw to screen
-    glBindFramebuffer( GL_FRAMEBUFFER, 0 );
-    glViewport( viewportPadding.x, viewportPadding.y, viewportBounds.x, viewportBounds.y );
-    glUseProgram( m_basicProgram );
+    GL(glBindFramebuffer( GL_FRAMEBUFFER, 0 ));
+    int fb_width = 0;
+    int fb_height = 0;
+    GL(glfwGetFramebufferSize( m_window, &fb_width, &fb_height ));
+    GL(glViewport( 0, 0, fb_width, fb_height ));
+    GL(glUseProgram( m_basicProgram ));
 
-    glClear( GL_COLOR_BUFFER_BIT );
-    glDrawArrays( GL_QUADS, 0, 4 );
+    GL(glClear( GL_COLOR_BUFFER_BIT ));
+    GL(glDrawArrays( GL_QUADS, 0, 4 ));
 
 #ifdef RENDER_CROSSHAIR
-    glUseProgram( 0 );
-    glLoadIdentity();
-    glColor3f( 1, 1, 1 );
-    glLineWidth( 1.0f );
+    GL(glUseProgram( 0 ));
+    GL(glLoadIdentity());
+    GL(glColor3f( 1, 1, 1 ));
+    GL(glLineWidth( 1.0f ));
     glBegin( GL_LINES );
         glVertex3f(-0.025f, 0.0f,-1.0f );
         glVertex3f( 0.025f, 0.0f,-1.0f );
@@ -386,6 +395,7 @@ void GLTracer::Draw()
         glVertex3f( 0.0f,-0.025f,-1.0f );
         glVertex3f( 0.0f, 0.025f,-1.0f );
     glEnd();
+    handle_error();
 #endif
 
     glfwSwapBuffers( m_window );
@@ -401,7 +411,7 @@ void GLTracer::Draw()
 void GLTracer::BufferPrimitive( const Primitive* Primitive, const int idx )
 {
     // Set buffer data
-    glBindBuffer( GL_TEXTURE_BUFFER, m_objectInfoTBO );
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, m_objectInfoTBO ));
     glm::vec4* p = ( glm::vec4* ) glMapBuffer( GL_TEXTURE_BUFFER, GL_WRITE_ONLY );
 
     // Shared parameters
@@ -475,8 +485,8 @@ void GLTracer::BufferPrimitive( const Primitive* Primitive, const int idx )
                                                      -1.0f,
                                                      -1.0f );
 
-    glUnmapBuffer( GL_TEXTURE_BUFFER );
-    glBindBuffer( GL_TEXTURE_BUFFER, 0 );
+    GL(glUnmapBuffer( GL_TEXTURE_BUFFER ));
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, 0 ));
 }
 
 // Setup GLFW and GLEW to obtain an >= OpenGL 3.1 context and open a window
@@ -501,7 +511,6 @@ void GLTracer::initGL()
     glfwSetWindowTitle( m_window, windowTitle.c_str() );
 
     // Setup window callbacks
-    callbackResizeWindow( 0, windowBounds.x, windowBounds.y );
     glfwSetWindowSizeCallback( m_window, callbackResizeWindow );
     glfwSetWindowFocusCallback( m_window, callbackFocusWindow );
     glfwSetWindowCloseCallback( m_window, callbackCloseWindow );
@@ -528,42 +537,56 @@ void GLTracer::initGL()
     std::cout << "GLEW Init Success, Using Version " << glewGetString( GLEW_VERSION ) << std::endl << std::endl;
 
     // Set clear color
-    glClearColor( 1.0f, 0.0f, 0.0f, 1.0f );
+    GL(glClearColor( 1.0f, 0.0f, 0.0f, 1.0f ));
 }
 
 // Generate and setup framebuffer, render texture
 void GLTracer::setupRenderTexture()
 {
+    if (m_screenColorTexture != 0) {
+        GL(glDeleteTextures(1, &m_screenColorTexture));
+    }
+
+    if (m_screenDepthTexture != 0) {
+        GL(glDeleteTextures(1, &m_screenDepthTexture));
+    }
+
+    if (m_framebuffer != 0) {
+        GL(glDeleteFramebuffers(1, &m_framebuffer));
+    }
+
     // Color Texture
-    glActiveTexture( GL_TEXTURE0 );
-    glGenTextures( 1, &m_screenColorTexture );
-    glBindTexture( GL_TEXTURE_2D, m_screenColorTexture );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, renderBounds.x, renderBounds.y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL );
+    GL(glActiveTexture( GL_TEXTURE0 ));
+    GL(glGenTextures( 1, &m_screenColorTexture ));
+    GL(glBindTexture( GL_TEXTURE_2D, m_screenColorTexture ));
+    GL(glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP ));
+    GL(glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP ));
+    GL(glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR ));
+    GL(glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR ));
+    GL(glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, windowBounds.x, windowBounds.y, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL ));
 
     // Depth Texture
-    glActiveTexture( GL_TEXTURE1 );
-    glGenTextures( 1, &m_screenDepthTexture );
-    glBindTexture( GL_TEXTURE_2D, m_screenDepthTexture );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_INTENSITY );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL );
-    glTexImage2D( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, renderBounds.x, renderBounds.y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL );
+    GL(glActiveTexture( GL_TEXTURE1 ));
+    GL(glGenTextures( 1, &m_screenDepthTexture ));
+    GL(glBindTexture( GL_TEXTURE_2D, m_screenDepthTexture ));
+    GL(glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP ));
+    GL(glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP ));
+    GL(glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR ));
+    GL(glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR ));
+    GL(glTexParameteri( GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_INTENSITY ));
+    GL(glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE ));
+    GL(glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL ));
+    GL(glTexImage2D( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, windowBounds.x, windowBounds.y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL ));
 
     // Generate framebuffer and bind color texture
-    glGenFramebuffers( 1, &m_framebuffer );
-    glBindFramebuffer( GL_FRAMEBUFFER, m_framebuffer );
-    glFramebufferTexture( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_screenColorTexture, 0 );
-    glFramebufferTexture( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, m_screenDepthTexture, 0 );
+    GL(glGenFramebuffers( 1, &m_framebuffer ));
+    GL(glBindFramebuffer( GL_FRAMEBUFFER, m_framebuffer ));
+    GL(glFramebufferTexture( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_screenColorTexture, 0 ));
+    GL(glFramebufferTexture( GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, m_screenDepthTexture, 0 ));
 
-    if( glCheckFramebufferStatus( GL_FRAMEBUFFER ) != GL_FRAMEBUFFER_COMPLETE )
+    GL(GLenum status = glCheckFramebufferStatus( GL_FRAMEBUFFER ));
+
+    if( status != GL_FRAMEBUFFER_COMPLETE )
     {
         std::cerr << "Unable to complete Framebuffer setup, quitting...";
         exit( -1 );
@@ -573,8 +596,8 @@ void GLTracer::setupRenderTexture()
 // Generate the screen quad vertex buffer and load in vertices
 void GLTracer::setupVertexBuffer()
 {
-    glGenBuffers( 1, &m_vertexBuffer );
-    glBindBuffer( GL_ARRAY_BUFFER, m_vertexBuffer );
+    GL(glGenBuffers( 1, &m_vertexBuffer ));
+    GL(glBindBuffer( GL_ARRAY_BUFFER, m_vertexBuffer ));
 
     // Vertices - Location 0
     glm::vec3 quadVertices[4] = {
@@ -584,14 +607,14 @@ void GLTracer::setupVertexBuffer()
         glm::vec3(-1.0,-1.0, 0.0 )
     };
 
-    glBufferData( GL_ARRAY_BUFFER, 4 * sizeof( glm::vec3 ), quadVertices, GL_STATIC_DRAW );
+    GL(glBufferData( GL_ARRAY_BUFFER, 4 * sizeof( glm::vec3 ), quadVertices, GL_STATIC_DRAW ));
 
-    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, 0 );
-    glEnableVertexAttribArray( 0 );
+    GL(glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, 0 ));
+    GL(glEnableVertexAttribArray( 0 ));
 
     // Texture Coordinates - Location 1
-    glGenBuffers( 1, &m_texCoordBuffer );
-    glBindBuffer( GL_ARRAY_BUFFER, m_texCoordBuffer );
+    GL(glGenBuffers( 1, &m_texCoordBuffer ));
+    GL(glBindBuffer( GL_ARRAY_BUFFER, m_texCoordBuffer ));
 
     glm::vec2 quadTexCoords[4] = {
         glm::vec2( 0.0, 1.0 ),
@@ -600,10 +623,10 @@ void GLTracer::setupVertexBuffer()
         glm::vec2( 0.0, 0.0 )
     };
 
-    glBufferData( GL_ARRAY_BUFFER, 4 * sizeof( glm::vec2 ), quadTexCoords, GL_STATIC_DRAW );
+    GL(glBufferData( GL_ARRAY_BUFFER, 4 * sizeof( glm::vec2 ), quadTexCoords, GL_STATIC_DRAW ));
 
-    glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 0, 0 );
-    glEnableVertexAttribArray( 1 );
+    GL(glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 0, 0 ));
+    GL(glEnableVertexAttribArray( 1 ));
 }
 
 // Attempt to compile and link shaders,
@@ -611,6 +634,8 @@ void GLTracer::setupVertexBuffer()
 // send the relevant info logs to standard output
 void GLTracer::compileShaders()
 {
+    std::cout << "Compile Shaders" << std::endl;
+
     // Individual Vertex/Fragment Shaders
     if( m_basicVS != 0 )
     {
@@ -645,44 +670,46 @@ void GLTracer::compileShaders()
     // Basic Texture Program
     if( m_basicProgram != 0 )
     {
-        glDeleteProgram( m_basicProgram );
+        std::cout << "Deleting " << m_basicProgram << std::endl;
+        GL(glDeleteProgram( m_basicProgram ));
     }
 
-    m_basicProgram = glCreateProgram();
+    GL(m_basicProgram = glCreateProgram());
     std::cout << "Program " << m_basicProgram << std::endl;
 
-    glBindAttribLocation(m_basicProgram, 0, "vertex");
-    glBindFragDataLocation(m_basicProgram, 0, "fragColor");
-    glAttachShader( m_basicProgram, m_basicVS->GetID() );
-    glAttachShader( m_basicProgram, m_basicFS->GetID() );
-    glLinkProgram( m_basicProgram );
+    GL(glBindAttribLocation(m_basicProgram, 0, "vertex"));
+    GL(glBindFragDataLocation(m_basicProgram, 0, "fragColor"));
+    GL(glAttachShader( m_basicProgram, m_basicVS->GetID() ));
+    GL(glAttachShader( m_basicProgram, m_basicFS->GetID() ));
+    GL(glLinkProgram( m_basicProgram ));
 
     GLint basicLinked = GL_FALSE;
-    glGetProgramiv( m_basicProgram, GL_LINK_STATUS, &basicLinked );
+    GL(glGetProgramiv( m_basicProgram, GL_LINK_STATUS, &basicLinked ));
     std::cout << "Link status: " << (basicLinked ? "GL_TRUE" : "GL_FALSE") << std::endl;
 
     GLchar basicInfoLog[ GL_INFO_LOG_LENGTH ] = { 0 };
-    glGetProgramInfoLog( m_basicProgram, GL_INFO_LOG_LENGTH, NULL, basicInfoLog );
+    GL(glGetProgramInfoLog( m_basicProgram, GL_INFO_LOG_LENGTH, NULL, basicInfoLog ));
     std::cout << "Info log:" << std::endl << basicInfoLog << std::endl;
 
     // Raytracer Program
     if( m_raytracerProgram != 0 )
     {
-        glDeleteProgram( m_raytracerProgram );
+        GL(glDeleteProgram( m_raytracerProgram ));
     }
 
-    m_raytracerProgram = glCreateProgram();
+    GL(m_raytracerProgram = glCreateProgram());
+
     s_raytracerProgram = m_raytracerProgram;
-    glAttachShader( m_raytracerProgram, m_basicVS->GetID() );
-    glAttachShader( m_raytracerProgram, m_raytracerFS->GetID() );
-    glLinkProgram( m_raytracerProgram );
+    GL(glAttachShader( m_raytracerProgram, m_basicVS->GetID() ));
+    GL(glAttachShader( m_raytracerProgram, m_raytracerFS->GetID() ));
+    GL(glLinkProgram( m_raytracerProgram ));
 
     GLint raytracerLinked = GL_FALSE;
-    glGetProgramiv( m_raytracerProgram, GL_LINK_STATUS, &raytracerLinked );
+    GL(glGetProgramiv( m_raytracerProgram, GL_LINK_STATUS, &raytracerLinked ));
     std::cout << "Program " << m_raytracerProgram << " link status: " << (raytracerLinked ? "GL_TRUE" : "GL_FALSE") << std::endl;
 
     GLchar raytracerInfoLog[ GL_INFO_LOG_LENGTH ] = { 0 };
-    glGetProgramInfoLog( m_raytracerProgram, GL_INFO_LOG_LENGTH, NULL, raytracerInfoLog );
+    GL(glGetProgramInfoLog( m_raytracerProgram, GL_INFO_LOG_LENGTH, NULL, raytracerInfoLog ));
     std::cout << std::endl << "Raytracer Program info log:" << std::endl << raytracerInfoLog << std::endl;
 
     setupUniforms();
@@ -691,56 +718,56 @@ void GLTracer::compileShaders()
 void GLTracer::setupUniforms()
 {
     // Retrieve Basic uniform IDs and set screen texture location
-    glUseProgram( m_basicProgram );
-    glUniform1i( glGetUniformLocation( m_basicProgram, "ScreenTextureSampler" ), 0 );
+    GL(glUseProgram( m_basicProgram ));
+    GL(glUniform1i( glGetUniformLocation( m_basicProgram, "ScreenTextureSampler" ), 0 ));
 
     // Retrieve Raytracer uniform IDs and set uniforms
-    glUseProgram( m_raytracerProgram );
+    GL(glUseProgram( m_raytracerProgram ));
 
-    uniform_WindowSize = glGetUniformLocation( m_raytracerProgram, "WindowSize" );
-    uniform_FOV = glGetUniformLocation( m_raytracerProgram, "FOV" );
-    glUniform2f( uniform_WindowSize, renderBounds.x, renderBounds.y );
-    glUniform1f( uniform_FOV, glm::radians( FOV ) );
+    GL(uniform_WindowSize = glGetUniformLocation( m_raytracerProgram, "WindowSize" ));
+    GL(uniform_FOV = glGetUniformLocation( m_raytracerProgram, "FOV" ));
+    GL(glUniform2f( uniform_WindowSize, windowBounds.x, windowBounds.y ));
+    GL(glUniform1f( uniform_FOV, glm::radians( FOV ) ));
 
-    m_uniform_CameraPos = glGetUniformLocation( m_raytracerProgram, "CameraPos" );
-    m_uniform_CameraRot = glGetUniformLocation( m_raytracerProgram, "CameraRot" );
-    m_uniform_CameraRotInverse = glGetUniformLocation( m_raytracerProgram, "CameraRotInverse" );
+    GL(m_uniform_CameraPos = glGetUniformLocation( m_raytracerProgram, "CameraPos" ));
+    GL(m_uniform_CameraRot = glGetUniformLocation( m_raytracerProgram, "CameraRot" ));
+    GL(m_uniform_CameraRotInverse = glGetUniformLocation( m_raytracerProgram, "CameraRotInverse" ));
 
-    m_uniform_AmbientIntensity = glGetUniformLocation( m_raytracerProgram, "AmbientIntensity" );
-    m_uniform_SkyLightColor = glGetUniformLocation( m_raytracerProgram, "SkyLightColor" );
-    m_uniform_SkyLightDirection = glGetUniformLocation( m_raytracerProgram, "SkyLightDirection" );
+    GL(m_uniform_AmbientIntensity = glGetUniformLocation( m_raytracerProgram, "AmbientIntensity" ));
+    GL(m_uniform_SkyLightColor = glGetUniformLocation( m_raytracerProgram, "SkyLightColor" ));
+    GL(m_uniform_SkyLightDirection = glGetUniformLocation( m_raytracerProgram, "SkyLightDirection" ));
 
-    glUniform1f( m_uniform_AmbientIntensity, AMBIENT_INTENSITY );
-    glUniform4f( m_uniform_SkyLightColor, 1.0, 1.0, 1.0, 1.0 );
+    GL(glUniform1f( m_uniform_AmbientIntensity, AMBIENT_INTENSITY ));
+    GL(glUniform4f( m_uniform_SkyLightColor, 1.0, 1.0, 1.0, 1.0 ));
 
-    glUniform1i( glGetUniformLocation( m_raytracerProgram, "GridSubdivisions" ), m_grid->GetSubdivisions() );
+    GL(glUniform1i( glGetUniformLocation( m_raytracerProgram, "GridSubdivisions" ), m_grid->GetSubdivisions() ));
     glm::vec3 p0 = m_grid->GetMinBound();
-    glUniform3f( glGetUniformLocation( m_raytracerProgram, "GridMinBound" ), p0.x, p0.y, p0.z );
+    GL(glUniform3f( glGetUniformLocation( m_raytracerProgram, "GridMinBound" ), p0.x, p0.y, p0.z ));
     glm::vec3 p1 = m_grid->GetMaxBound();
-    glUniform3f( glGetUniformLocation( m_raytracerProgram, "GridMaxBound" ), p1.x, p1.y, p1.z );
+    GL(glUniform3f( glGetUniformLocation( m_raytracerProgram, "GridMaxBound" ), p1.x, p1.y, p1.z ));
     glm::vec3 cs = m_grid->GetCellSize();
-    glUniform3f( glGetUniformLocation( m_raytracerProgram, "GridCellSize" ), cs.x, cs.y, cs.z );
+    GL(glUniform3f( glGetUniformLocation( m_raytracerProgram, "GridCellSize" ), cs.x, cs.y, cs.z ));
 
-    glUniform1i( glGetUniformLocation( m_raytracerProgram, "PrimitiveSampler" ), 2 );
-    glUniform1i( glGetUniformLocation( m_raytracerProgram, "AccellStructureSampler" ), 3 );
-    glUniform1i( glGetUniformLocation( m_raytracerProgram, "ObjectRefSampler" ), 4 );
+    GL(glUniform1i( glGetUniformLocation( m_raytracerProgram, "PrimitiveSampler" ), 2 ));
+    GL(glUniform1i( glGetUniformLocation( m_raytracerProgram, "AccellStructureSampler" ), 3 ));
+    GL(glUniform1i( glGetUniformLocation( m_raytracerProgram, "ObjectRefSampler" ), 4 ));
 }
 
 // Performs initial setup of the object info texture and it's buffer
 void GLTracer::generateObjectInfoTex()
 {
-    glGenBuffers( 1, &m_objectInfoTBO );
-    glBindBuffer( GL_TEXTURE_BUFFER, m_objectInfoTBO );
+    GL(glGenBuffers( 1, &m_objectInfoTBO ));
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, m_objectInfoTBO ));
 
     int bufferSize = scene->GetObjects().size() * INFO_PACKET_SIZE * sizeof( glm::vec4 );
-    glBufferData( GL_TEXTURE_BUFFER, bufferSize, 0, GL_DYNAMIC_DRAW );
+    GL(glBufferData( GL_TEXTURE_BUFFER, bufferSize, 0, GL_DYNAMIC_DRAW ));
 
     // Create object info texture & bind it to the buffer
-    glGenTextures( 1, &m_objectInfoTex );
-    glActiveTexture( GL_TEXTURE2 );
-    glBindTexture( GL_TEXTURE_BUFFER, m_objectInfoTex );
-    glTexBuffer( GL_TEXTURE_BUFFER, GL_RGBA32F, m_objectInfoTBO );
-    glBindBuffer( GL_TEXTURE_BUFFER, 0 );
+    GL(glGenTextures( 1, &m_objectInfoTex ));
+    GL(glActiveTexture( GL_TEXTURE2 ));
+    GL(glBindTexture( GL_TEXTURE_BUFFER, m_objectInfoTex ));
+    GL(glTexBuffer( GL_TEXTURE_BUFFER, GL_RGBA32F, m_objectInfoTBO ));
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, 0 ));
 }
 
 // Buffers the provided set of world objects to the info texture
@@ -752,48 +779,48 @@ void GLTracer::bufferPrimitives( std::vector< Primitive* > primitives )
         BufferPrimitive( primitives[ i ], i );
     }
 
-    glUseProgram( m_raytracerProgram );
-    glUniform1i( glGetUniformLocation( m_raytracerProgram, "ObjectCount" ), scene->GetObjects().size() );
-    glUniform1i( glGetUniformLocation( m_raytracerProgram, "ObjectInfoSize" ), INFO_PACKET_SIZE );
+    GL(glUseProgram( m_raytracerProgram ));
+    GL(glUniform1i( glGetUniformLocation( m_raytracerProgram, "ObjectCount" ), scene->GetObjects().size() ));
+    GL(glUniform1i( glGetUniformLocation( m_raytracerProgram, "ObjectInfoSize" ), INFO_PACKET_SIZE ));
 }
 
 // Performs initial setup of the grid texture and it's buffer
 void GLTracer::generateGridTex()
 {
     // Generate tree texture
-    glGenBuffers( 1, &m_accellStructureTBO );
-    glBindBuffer( GL_TEXTURE_BUFFER, m_accellStructureTBO );
+    GL(glGenBuffers( 1, &m_accellStructureTBO ));
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, m_accellStructureTBO ));
 
     int gridBufferSize = m_grid->GetGridArrayLength() * 4 * sizeof( float );
-    glBufferData( GL_TEXTURE_BUFFER, gridBufferSize, 0, GL_DYNAMIC_DRAW );
+    GL(glBufferData( GL_TEXTURE_BUFFER, gridBufferSize, 0, GL_DYNAMIC_DRAW ));
 
     // Create accell structure texture & bind it to the buffer
-    glGenTextures( 1, &m_accellStructureTex );
-    glActiveTexture( GL_TEXTURE3 );
-    glBindTexture( GL_TEXTURE_BUFFER, m_accellStructureTex );
-    glTexBuffer( GL_TEXTURE_BUFFER, GL_RGBA32F, m_accellStructureTBO );
-    glBindBuffer( GL_TEXTURE_BUFFER, 0 );
+    GL(glGenTextures( 1, &m_accellStructureTex ));
+    GL(glActiveTexture( GL_TEXTURE3 ));
+    GL(glBindTexture( GL_TEXTURE_BUFFER, m_accellStructureTex ));
+    GL(glTexBuffer( GL_TEXTURE_BUFFER, GL_RGBA32F, m_accellStructureTBO ));
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, 0 ));
 
     // Generate object reference buffer
-    glGenBuffers( 1, &m_objectRefTBO );
-    glBindBuffer( GL_TEXTURE_BUFFER, m_objectRefTBO );
+    GL(glGenBuffers( 1, &m_objectRefTBO ));
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, m_objectRefTBO ));
 
     int objectRefBufferSize = m_grid->GetObjectRefVector().size() * 4 * sizeof( float );
-    glBufferData( GL_TEXTURE_BUFFER, objectRefBufferSize, 0, GL_DYNAMIC_DRAW );
+    GL(glBufferData( GL_TEXTURE_BUFFER, objectRefBufferSize, 0, GL_DYNAMIC_DRAW ));
 
     // Create object reference texture & bind it to the buffer
-    glGenTextures( 1, &m_objectRefTex );
-    glActiveTexture( GL_TEXTURE4 );
-    glBindTexture( GL_TEXTURE_BUFFER, m_objectRefTex );
-    glTexBuffer( GL_TEXTURE_BUFFER, GL_RGBA32F, m_objectRefTBO );
-    glBindBuffer( GL_TEXTURE_BUFFER, 0 );
+    GL(glGenTextures( 1, &m_objectRefTex ));
+    GL(glActiveTexture( GL_TEXTURE4 ));
+    GL(glBindTexture( GL_TEXTURE_BUFFER, m_objectRefTex ));
+    GL(glTexBuffer( GL_TEXTURE_BUFFER, GL_RGBA32F, m_objectRefTBO ));
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, 0 ));
 }
 
 // Buffers the grid into it's respective texture
 void GLTracer::bufferGrid()
 {
-    glBindBuffer( GL_TEXTURE_BUFFER, m_accellStructureTBO );
-    glm::vec4* structureBuffer = ( glm::vec4* ) glMapBuffer( GL_TEXTURE_BUFFER, GL_WRITE_ONLY );
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, m_accellStructureTBO ));
+    GL(glm::vec4* structureBuffer = ( glm::vec4* ) glMapBuffer( GL_TEXTURE_BUFFER, GL_WRITE_ONLY ));
 
     const int* grid = m_grid->GetGridArray();
 
@@ -802,12 +829,12 @@ void GLTracer::bufferGrid()
         structureBuffer[ i ][ 0 ] = ( float )grid[ i ];
     }
 
-    glUnmapBuffer( GL_TEXTURE_BUFFER );
-    glBindBuffer( GL_TEXTURE_BUFFER, 0 );
+    GL(glUnmapBuffer( GL_TEXTURE_BUFFER ));
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, 0 ));
 
     // Buffer the leaf nodes' object references
-    glBindBuffer( GL_TEXTURE_BUFFER, m_objectRefTBO );
-    glm::vec4* refBuffer = ( glm::vec4* ) glMapBuffer( GL_TEXTURE_BUFFER, GL_WRITE_ONLY );
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, m_objectRefTBO ));
+    GL(glm::vec4* refBuffer = ( glm::vec4* ) glMapBuffer( GL_TEXTURE_BUFFER, GL_WRITE_ONLY ));
 
     const std::vector< int > objectRefVector = m_grid->GetObjectRefVector();
 
@@ -816,48 +843,48 @@ void GLTracer::bufferGrid()
         refBuffer[ i ][ 0 ] = ( float )objectRefVector[ i ];
     }
 
-    glUnmapBuffer( GL_TEXTURE_BUFFER );
-    glBindBuffer( GL_TEXTURE_BUFFER, 0 );
+    GL(glUnmapBuffer( GL_TEXTURE_BUFFER ));
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, 0 ));
 }
 
 // Performs initial setup of the kD tree texture and it's buffer
 void GLTracer::generateKDTreeTex()
 {
     // Generate tree texture
-    glGenBuffers( 1, &m_accellStructureTBO );
-    glBindBuffer( GL_TEXTURE_BUFFER, m_accellStructureTBO );
+    GL(glGenBuffers( 1, &m_accellStructureTBO ));
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, m_accellStructureTBO ));
 
     int treeBufferSize = m_kdTree->GetTreeVector().size() * sizeof( glm::vec4 );
-    glBufferData( GL_TEXTURE_BUFFER, treeBufferSize, 0, GL_DYNAMIC_DRAW );
+    GL(glBufferData( GL_TEXTURE_BUFFER, treeBufferSize, 0, GL_DYNAMIC_DRAW ));
 
     // Create accell structure texture & bind it to the buffer
-    glGenTextures( 1, &m_accellStructureTex );
-    glActiveTexture( GL_TEXTURE3 );
-    glBindTexture( GL_TEXTURE_BUFFER, m_accellStructureTex );
-    glTexBuffer( GL_TEXTURE_BUFFER, GL_RGBA32F, m_accellStructureTBO );
-    glBindBuffer( GL_TEXTURE_BUFFER, 0 );
+    GL(glGenTextures( 1, &m_accellStructureTex ));
+    GL(glActiveTexture( GL_TEXTURE3 ));
+    GL(glBindTexture( GL_TEXTURE_BUFFER, m_accellStructureTex ));
+    GL(glTexBuffer( GL_TEXTURE_BUFFER, GL_RGBA32F, m_accellStructureTBO ));
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, 0 ));
 
     // Generate object reference buffer
-    glGenBuffers( 1, &m_objectRefTBO );
-    glBindBuffer( GL_TEXTURE_BUFFER, m_objectRefTBO );
+    GL(glGenBuffers( 1, &m_objectRefTBO ));
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, m_objectRefTBO ));
 
     int leafObjectBufferSize = m_kdTree->GetLeafObjectsVector().size() * sizeof( float );
-    glBufferData( GL_TEXTURE_BUFFER, leafObjectBufferSize, 0, GL_DYNAMIC_DRAW );
+    GL(glBufferData( GL_TEXTURE_BUFFER, leafObjectBufferSize, 0, GL_DYNAMIC_DRAW ));
 
     // Create object reference texture & bind it to the buffer
-    glGenTextures( 1, &m_objectRefTex );
-    glActiveTexture( GL_TEXTURE4 );
-    glBindTexture( GL_TEXTURE_BUFFER, m_objectRefTex );
-    glTexBuffer( GL_TEXTURE_BUFFER, GL_RGBA32F, m_objectRefTBO );
-    glBindBuffer( GL_TEXTURE_BUFFER, 0 );
+    GL(glGenTextures( 1, &m_objectRefTex ));
+    GL(glActiveTexture( GL_TEXTURE4 ));
+    GL(glBindTexture( GL_TEXTURE_BUFFER, m_objectRefTex ));
+    GL(glTexBuffer( GL_TEXTURE_BUFFER, GL_RGBA32F, m_objectRefTBO ));
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, 0 ));
 }
 
 // Buffers the kD Tree into it's respective texture
 void GLTracer::bufferKDTree()
 {
     // Buffer the tree itself
-    glBindBuffer( GL_TEXTURE_BUFFER, m_accellStructureTBO );
-    glm::vec4* treeBuffer = ( glm::vec4* ) glMapBuffer( GL_TEXTURE_BUFFER, GL_WRITE_ONLY );
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, m_accellStructureTBO ));
+    GL(glm::vec4* treeBuffer = ( glm::vec4* ) glMapBuffer( GL_TEXTURE_BUFFER, GL_WRITE_ONLY ));
 
     const std::vector< glm::vec4 > treeVector = m_kdTree->GetTreeVector();
 
@@ -866,11 +893,11 @@ void GLTracer::bufferKDTree()
         treeBuffer[ i ] = treeVector[ i ];
     }
 
-    glUnmapBuffer( GL_TEXTURE_BUFFER );
-    glBindBuffer( GL_TEXTURE_BUFFER, 0 );
+    GL(glUnmapBuffer( GL_TEXTURE_BUFFER ));
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, 0 ));
 
     // Buffer the leaf nodes' object references
-    glBindBuffer( GL_TEXTURE_BUFFER, m_objectRefTBO );
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, m_objectRefTBO ));
     float* leafObjectBuffer = ( float* ) glMapBuffer( GL_TEXTURE_BUFFER, GL_WRITE_ONLY );
 
     const std::vector< int > leafObjectVector = m_kdTree->GetLeafObjectsVector();
@@ -880,29 +907,30 @@ void GLTracer::bufferKDTree()
         leafObjectBuffer[ i ] = ( float )leafObjectVector[ i ];
     }
 
-    glUnmapBuffer( GL_TEXTURE_BUFFER );
-    glBindBuffer( GL_TEXTURE_BUFFER, 0 );
+    GL(glUnmapBuffer( GL_TEXTURE_BUFFER ));
+    GL(glBindBuffer( GL_TEXTURE_BUFFER, 0 ));
 }
 
-// Updates the OpenGL viewport size and dependant variables
+// Updates the OpenGL viewport size and dependent variables
 void GLTracer::callbackResizeWindow( GLFWwindow* window, int width, int height )
 {
+    std::cout << "Window Resized: " << width << ", " << height << std::endl;
+
     // Store new window size
     windowBounds.x = static_cast< float >( width );
     windowBounds.y = static_cast< float >( height );
     Controls::MouseOrigin = glm::ivec2( windowBounds.x / 2, windowBounds.y / 2 );
 
-    // Calculate aspect ratio corrected viewport size and padding
-    float letterboxRatio = glm::min( windowBounds.x / renderBounds.x, windowBounds.y / renderBounds.y );
-    viewportBounds = renderBounds * letterboxRatio;
-    viewportPadding = ( windowBounds - viewportBounds ) * 0.5f;
-
     // Inform the shader
-    if( uniform_WindowSize != 0 && uniform_FOV != 0 )
+    GL(glUseProgram( s_raytracerProgram ));
+    if( uniform_WindowSize != -1 )
     {
-        glUseProgram( s_raytracerProgram );
-        glUniform2f( uniform_WindowSize, viewportBounds.x, viewportBounds.y );
-        glUniform1f( uniform_FOV, glm::radians( FOV ) );
+        GL(glUniform2f( uniform_WindowSize, windowBounds.x, windowBounds.y ));
+    }
+
+    if( uniform_FOV != -1 )
+    {
+        GL(glUniform1f( uniform_FOV, glm::radians( FOV ) ));
     }
 }
 

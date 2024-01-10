@@ -20,8 +20,8 @@ struct ObjectMaterial
     GLfloat RefractiveIndex = 1.0f;
     GLfloat CastShadow = 1.0f;
 
-    glm::vec3 PortalOffset;
-    glm::vec3 PortalAxis;
+    glm::vec3 PortalOffset = glm::vec3(0.0);
+    glm::vec3 PortalAxis = glm::vec3(0.0);
     float PortalAngle = 0.0f;
 };
 
@@ -30,8 +30,8 @@ struct Primitive
     enum ObjectType { None = -1, Plane, Sphere, Disc, AABB, ConvexPoly };
     GLfloat ID = 0.0f;
     ObjectType Type = None;
-    glm::vec3 Position;
-    glm::quat Orientation;
+    glm::vec3 Position = glm::vec3(0.0);
+    glm::quat Orientation = glm::quat();
     glm::vec3 Scale = glm::vec3( 1.0f );
     ObjectMaterial Material;
     GLfloat Sides = 3.0f;

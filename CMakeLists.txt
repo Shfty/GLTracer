@@ -6,6 +6,7 @@ add_executable(
 
     main.cpp
 
+    src/GLError.cpp
     src/Collisions.cpp
     src/Controls.cpp
     src/Scene.cpp

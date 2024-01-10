@@ -10,7 +10,7 @@ namespace Controls
         mouseLock = inMouseLock;
         if( mouseLock )
         {
-            glfwSetInputMode( Utility::MainWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN );
+            glfwSetInputMode( Utility::MainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED );
         }
         else
         {

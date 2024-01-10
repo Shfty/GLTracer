@@ -51,45 +51,45 @@ private:
 
     // CPU
     Camera* m_camera = 0;
-    glm::mat4 m_projectionMatrix;
-    glm::vec2 m_viewportBounds;
-    glm::vec2 m_viewportPadding;
+    glm::mat4 m_projectionMatrix = glm::mat4(1.0);
+    glm::vec2 m_viewportBounds = glm::vec2(0.0);
+    glm::vec2 m_viewportPadding = glm::vec2(0.0);
     kdTree* m_kdTree = 0;
     Grid* m_grid = 0;
 
     // GPU
     GLFWwindow* m_window = 0;
 
-    GLuint m_vertexBuffer;
-    GLuint m_texCoordBuffer;
+    GLuint m_vertexBuffer = 0;
+    GLuint m_texCoordBuffer = 0;
 
-    GLuint m_framebuffer;
-    GLuint m_screenColorTexture;
-    GLuint m_screenDepthTexture;
+    GLuint m_framebuffer = 0;
+    GLuint m_screenColorTexture = 0;
+    GLuint m_screenDepthTexture = 0;
 
-    GLuint m_objectInfoTex;
-    GLuint m_objectInfoTBO;
+    GLuint m_objectInfoTex = 0;
+    GLuint m_objectInfoTBO = 0;
 
-    GLuint m_accellStructureTex;
-    GLuint m_accellStructureTBO;
+    GLuint m_accellStructureTex = 0;
+    GLuint m_accellStructureTBO = 0;
 
-    GLuint m_objectRefTex;
-    GLuint m_objectRefTBO;
+    GLuint m_objectRefTex = 0;
+    GLuint m_objectRefTBO = 0;
 
     ShaderProgram* m_basicVS = 0;
     ShaderProgram* m_basicFS = 0;
     ShaderProgram* m_raytracerFS = 0;
 
-    GLuint m_basicProgram;
-        GLint m_uniform_ScreenTexture;
+    GLuint m_basicProgram = 0;
+    GLint m_uniform_ScreenTexture = 0;
 
-    GLuint m_raytracerProgram;
-        GLint m_uniform_CameraPos;
-        GLint m_uniform_CameraRot;
-        GLint m_uniform_CameraRotInverse;
-        GLint m_uniform_AmbientIntensity;
-        GLint m_uniform_SkyLightColor;
-        GLint m_uniform_SkyLightDirection;
+    GLuint m_raytracerProgram = 0;
+    GLint m_uniform_CameraPos = 0;
+    GLint m_uniform_CameraRot = 0;
+    GLint m_uniform_CameraRotInverse = 0;
+    GLint m_uniform_AmbientIntensity = 0;
+    GLint m_uniform_SkyLightColor = 0;
+    GLint m_uniform_SkyLightDirection = 0;
 };
 
 #endif // GLTRACER_H

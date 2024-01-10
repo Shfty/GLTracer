@@ -465,18 +465,18 @@ void TestScene::Update( glm::vec4 skyColor )
 {
     Scene::Update();
 
-    float clock = WorldClock::Instance()->Clock();
+    float clock = WorldClock::Instance()->TotalTime();
 
     // Sky color
     skySphere->Material.Color = skyColor;
     updatePrimitive( skySphere );
 
     // Sphere position
-    texturedSphere->Position.x = 45.0f + glm::sin( float( clock ) / CLOCKS_PER_SEC ) * 20.0f;
-    texturedSphere->Position.y = 20.0f - glm::cos( float( clock ) / CLOCKS_PER_SEC ) * 20.0f;
+    texturedSphere->Position.x = 45.0f + glm::sin( float( clock ) ) * 20.0f;
+    texturedSphere->Position.y = 20.0f - glm::cos( float( clock ) ) * 20.0f;
     updatePrimitive( texturedSphere );
 
     // Box warp
-    boxWarpX->Material.PortalOffset.x = 10.0f * ( sin( clock / CLOCKS_PER_SEC * 0.5f ) + 1.0f ) / 2.0f;
+    boxWarpX->Material.PortalOffset.x = 10.0f * ( sin( clock * 0.5f ) + 1.0f ) / 2.0f;
     updatePrimitive( boxWarpX );
 }

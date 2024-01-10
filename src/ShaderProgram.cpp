@@ -1,4 +1,5 @@
 #include "ShaderProgram.h"
+#include "GLError.h"
 
 #include <fstream>
 #include <iostream>

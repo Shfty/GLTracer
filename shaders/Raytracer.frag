@@ -1,4 +1,8 @@
 // #version def and CPU-exposed constants are appended in ShaderProgram.cpp
+//const bool LOW_ACCURACY_MODE = false;
+//const bool DISABLE_SHADOWS = false;
+//const bool DISABLE_LIGHTING = false;
+//const bool DRAW_DEPTH_BUFFER = false;
 
 // Useful Values
 const float PI = 3.14159265359;
@@ -10,8 +14,8 @@ const vec3 PLANE_NORMAL = vec3( 0.0, 1.0, 0.0 );
 // Ray parameters
 const float NEAR_PLANE = 0.0;
 const float FAR_PLANE = 1000.0;
-const int MAX_VIEW_ITERATIONS = 3;
-const int MAX_SHADOW_ITERATIONS = 1;
+const int MAX_VIEW_ITERATIONS = 8;
+const int MAX_SHADOW_ITERATIONS = 4;
 
 // Object Type Enumerators
 const int OBJECT_TYPE_NONE = -1;
@@ -996,10 +1000,12 @@ void castRay(
 void main()
 {
     // Calculate ray direction from fragment position
-    vec2 screenPos = ( ScreenCoord - 0.5 ) * 2;
+    vec2 screenPos = ScreenCoord * 2.0 - 1.0;
     float ar = WindowSize.x / WindowSize.y;
-    float xMag = screenPos.x * ( ar / tan( FOV * 0.5 ) );
-    float yMag = screenPos.y * ( 1.0 / tan( FOV * 0.5 ) );
+    screenPos.x *= ar;
+
+    float xMag = screenPos.x * tan( FOV * 0.5 );
+    float yMag = screenPos.y * tan( FOV * 0.5 );
 
     vec3 rayDirection = normalize( vec3( xMag, yMag,-1.0 ) );
     rayDirection = vec3( CameraRot * vec4( rayDirection, 0.0 ) );

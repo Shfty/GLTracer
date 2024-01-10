@@ -1,8 +1,13 @@
 #ifndef WORLDCLOCK_H
 #define WORLDCLOCK_H
 
-#include <time.h>
+#include <chrono>
 #include <iostream>
+
+using local_clock = std::chrono::steady_clock;
+using duration = local_clock::duration;
+using time_point = local_clock::time_point;
+using duration_out = std::chrono::duration<float, std::chrono::seconds::period>;
 
 class WorldClock
 {
@@ -12,16 +17,15 @@ public:
 
     void Update();
 
-    int Clock() const { return m_clock; }
-    int ElapsedTime() const { return m_clock - m_prevClock; }
-    float DeltaTime() const { return m_deltaTime; }
+    float TotalTime() const { return std::chrono::duration_cast<duration_out>(m_totalTime).count(); }
+    float DeltaTime() const { return std::chrono::duration_cast<duration_out>(m_deltaTime).count(); }
 
 private:
     WorldClock() {}
 
-    int m_clock = 0;
-    int m_prevClock = 0;
-    float m_deltaTime = 0.0f;
+    time_point m_prevClock;
+    duration m_totalTime;
+    duration m_deltaTime;
 };
 
 #endif // WORLDCLOCK_H

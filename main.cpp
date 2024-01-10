@@ -9,9 +9,6 @@ int main()
 
     while( true )
     {
-        // Cap update to tick rate
-        WorldClock::Instance()->Update();
-
         // Update and Draw renderer
         glTracer.Update();
         glTracer.Draw();
